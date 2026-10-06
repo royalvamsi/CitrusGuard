@@ -1,0 +1,42 @@
+from torchvision import transforms
+from torchvision.transforms import InterpolationMode
+
+
+class TransformFactory:
+
+    @staticmethod
+    def train():
+        return transforms.Compose([
+            transforms.Resize(256),
+            transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.RandomRotation(25),
+            transforms.ColorJitter(
+                brightness=0.3,
+                contrast=0.3,
+                saturation=0.3,
+                hue=0.1
+            ),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225]
+            )
+        ])
+
+    @staticmethod
+    def validation():
+        return transforms.Compose([
+            transforms.Resize(256, interpolation=InterpolationMode.BILINEAR),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225]
+            )
+        ])
+
+    @staticmethod
+    def inference():
+        return TransformFactory.validation()

@@ -1,0 +1,6 @@
+CLASS_MAP = {
+    0: "blackspot",
+    1: "canker",
+    2: "greening",
+    3: "healthy"
+}
